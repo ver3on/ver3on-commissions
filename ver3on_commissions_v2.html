@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ver3on — commissions</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Titan+One&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0e0e0e;
+    --panel: #1a1a1a;
+    --border: #2e2e2e;
+    --yellow: #fefeb4;
+    --white: #e8e8e8;
+    --dim: #666;
+    --dimmer: #444;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 24px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .brand {
+    font-family: 'Titan One', sans-serif;
+    font-size: 48px;
+    color: var(--white);
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+
+  .brand span {
+    color: var(--yellow);
+  }
+
+  .version {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  /* Divider */
+  .divider {
+    width: 100%;
+    max-width: 640px;
+    margin: 16px auto 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .divider::before {
+    content: '✮';
+    color: rgba(232,232,232,0.25);
+    font-size: 16px;
+    flex-shrink: 0;
+    order: 2;
+  }
+
+  .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(232,232,232,0.15);
+    order: 3;
+  }
+
+  .divider-left {
+    flex: 1;
+    height: 1px;
+    background: rgba(232,232,232,0.15);
+  }
+
+  /* Main layout */
+  .layout {
+    width: 100%;
+    max-width: 640px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* Panel */
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+
+  .panel.full {
+    grid-column: 1 / -1;
+  }
+
+  .panel-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Price rows */
+  .price-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .price-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .price-name {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .price-sub {
+    font-size: 10px;
+    color: var(--dim);
+    margin-top: 2px;
+    font-weight: 400;
+  }
+
+  .price-val {
+    font-family: 'Titan One', sans-serif;
+    font-size: 12px;
+    color: var(--yellow);
+    white-space: nowrap;
+  }
+
+  /* Tag buttons like the UI */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .tag {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  .tag.accent {
+    border-color: var(--yellow);
+    color: var(--yellow);
+  }
+
+  /* Terms grid */
+  .terms {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .term {
+    padding: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+  }
+
+  .term-key {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 6px;
+  }
+
+  .term-val {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--white);
+    line-height: 1.5;
+  }
+
+  /* What you send */
+  .send-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .send-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: rgba(232,232,232,0.7);
+    font-weight: 400;
+  }
+
+  .send-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--yellow);
+    flex-shrink: 0;
+  }
+
+  /* Note */
+  .note {
+    font-size: 11px;
+    color: var(--white);
+    line-height: 1.7;
+    font-style: italic;
+    padding: 14px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    margin-top: 12px;
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+
+  /* Footer */
+  .footer {
+    width: 100%;
+    max-width: 640px;
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .footer-text {
+    padding: 0 20px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    white-space: nowrap;
+  }
+
+  /* CTA */
+  .cta {
+    width: 100%;
+    max-width: 640px;
+    margin-top: 24px;
+    display: flex;
+    gap: 12px;
+  }
+
+  .cta-main {
+    flex: 1;
+    padding: 16px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .cta-label {
+    font-size: 8px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .cta-handle {
+    font-family: 'Titan One', sans-serif;
+    font-size: 18px;
+    color: var(--white);
+  }
+
+  .cta-handle span { color: var(--yellow); }
+
+  .cta-slots {
+    padding: 16px 24px;
+    border: 1px solid rgba(254,254,180,0.3);
+    background: rgba(254,254,180,0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    white-space: nowrap;
+  }
+
+  /* Full Terms Toggle */
+  .terms-toggle {
+    width: 100%;
+    max-width: 640px;
+    margin-top: 16px;
+    font-size: 11px;
+    color: var(--dim);
+    text-align: center;
+  }
+
+  .terms-trigger {
+    display: inline;
+    color: var(--yellow);
+    text-decoration: underline;
+    text-decoration-style: solid;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    font-weight: 600;
+    background: rgba(254,254,180,0.08);
+    padding: 1px 5px;
+    font-style: normal;
+  }
+
+  .terms-trigger:hover {
+    background: rgba(254,254,180,0.15);
+  }
+
+  .full-terms {
+    display: none;
+    width: 100%;
+    max-width: 640px;
+    margin-top: 12px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 24px;
+  }
+
+  .full-terms.open { display: block; }
+
+  .ft-section {
+    margin-bottom: 20px;
+  }
+
+  .ft-section:last-child { margin-bottom: 0; }
+
+  .ft-title {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ft-item {
+    display: flex;
+    gap: 10px;
+    font-size: 11px;
+    color: var(--white);
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+
+  .ft-item:last-child { margin-bottom: 0; }
+
+  .ft-item::before {
+    content: '—';
+    color: var(--dimmer);
+    flex-shrink: 0;
+  }
+
+  /* Animate */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .header { animation: fadeUp 0.5s ease both; }
+  .divider { animation: fadeUp 0.5s 0.1s ease both; }
+  .layout { animation: fadeUp 0.5s 0.2s ease both; }
+  .footer { animation: fadeUp 0.5s 0.3s ease both; }
+  .cta { animation: fadeUp 0.5s 0.35s ease both; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">ver<span>3</span>on</div>
+  <div class="version">lyric edit commissions · 2026</div>
+</div>
+
+<div class="divider"><div class="divider-left"></div></div>
+
+<div class="layout">
+
+  <!-- Pricing -->
+  <div class="panel full">
+    <div class="panel-label">pricing</div>
+    <div class="price-item">
+      <div>
+        <div class="price-name">Standard</div>
+        <div class="price-sub">up to 1 min · 2–3 day turnaround</div>
+      </div>
+      <div class="price-val">$20–25</div>
+    </div>
+    <div class="price-item">
+      <div>
+        <div class="price-name">Extended</div>
+        <div class="price-sub">1–2 min · add-on to standard</div>
+      </div>
+      <div class="price-val">+$10</div>
+    </div>
+    <div class="price-item">
+      <div>
+        <div class="price-name">Rush</div>
+        <div class="price-sub">up to 1 min · 24 hr turnaround</div>
+      </div>
+      <div class="price-val">$35</div>
+    </div>
+    <div class="price-item">
+      <div>
+        <div class="price-name">Extra Revision</div>
+        <div class="price-sub">1 revision included free</div>
+      </div>
+      <div class="price-val">+$5</div>
+    </div>
+  </div>
+
+  <!-- Terms -->
+  <div class="panel">
+    <div class="panel-label">terms</div>
+    <div class="terms">
+      <div class="term">
+        <div class="term-key">payment</div>
+        <div class="term-val">50% upfront<br>50% on delivery</div>
+      </div>
+      <div class="term">
+        <div class="term-key">via</div>
+        <div class="term-val">PayPal only</div>
+      </div>
+
+      <div class="term">
+        <div class="term-key">starts</div>
+        <div class="term-val">after materials received</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What you send -->
+  <div class="panel">
+    <div class="panel-label">what you send me</div>
+    <div class="send-list">
+      <div class="send-item"><div class="send-dot"></div>Song or audio file</div>
+      <div class="send-item"><div class="send-dot"></div>General vibe or concept</div>
+      <div class="send-item"><div class="send-dot"></div>Reference edits</div>
+      <div class="send-item"><div class="send-dot"></div>Clips if you have them</div>
+      <div class="send-item"><div class="send-dot"></div>Lyrics or text to highlight</div>
+    </div>
+  </div>
+
+  <!-- Style -->
+  <div class="panel full">
+    <div class="panel-label">style</div>
+    <div class="tags">
+      <div class="tag accent">dark</div>
+      <div class="tag accent">cinematic</div>
+      <div class="tag accent">lyric-based</div>
+      <div class="tag">desaturated</div>
+      <div class="tag">emotional</div>
+
+      <div class="tag">after effects</div>
+    </div>
+  </div>
+
+  <div class="note">
+    no refunds once work has begun, the 50/50 split protects us both
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-line"></div>
+  <div class="footer-text">portfolio — tiktok @ver3on</div>
+  <div class="footer-line"></div>
+</div>
+
+<div class="cta">
+  <div class="cta-main">
+    <div class="cta-label">dm to commission</div>
+    <div class="cta-handle">tiktok / <span>@ver3on</span></div>
+  </div>
+</div>
+
+<div class="terms-toggle">
+  read the full <span class="terms-trigger" onclick="document.querySelector('.full-terms').classList.toggle('open')">terms & conditions</span>
+</div>
+
+<div class="full-terms">
+
+  <div class="ft-section">
+    <div class="ft-title">revisions</div>
+    <div class="ft-item">1 free revision is included per commission.</div>
+    <div class="ft-item">Minor changes (text typos, timing tweaks, color adjustments) are covered by the free revision.</div>
+    <div class="ft-item">Major changes (new clips, different song section, concept change) are treated as a new commission.</div>
+    <div class="ft-item">Revision requests must be made within 7 days of delivery — after that the commission is considered final.</div>
+  </div>
+
+  <div class="ft-section">
+    <div class="ft-title">file delivery</div>
+    <div class="ft-item">Final file delivered as MP4 or MOV, optimized for the agreed ratio.</div>
+    <div class="ft-item">Delivered via Google Drive, Mega, or WeTransfer.</div>
+    <div class="ft-item">Ratio is locked once work begins — ratio changes after approval are treated as a new commission.</div>
+    <div class="ft-item">Transfer link stays live for 7 days after delivery — please download within that window.</div>
+    <div class="ft-item">I do not keep a copy of the final edit or any provided materials after 7 days of delivery.</div>
+  </div>
+
+  <div class="ft-section">
+    <div class="ft-title">credit</div>
+    <div class="ft-item">If you post the finished edit, credit is required: @ver3on on TikTok, @ver3on_ on Instagram.</div>
+    <div class="ft-item">I reserve the right to post the finished edit on my own platforms unless otherwise agreed upfront.</div>
+  </div>
+
+  <div class="ft-section">
+    <div class="ft-title">refunds</div>
+    <div class="ft-item">No refunds once work has begun. The 50/50 payment structure protects both parties.</div>
+    <div class="ft-item">If I am unable to complete the commission, the upfront payment will be refunded in full.</div>
+  </div>
+
+  <div class="ft-section">
+    <div class="ft-title">commercial use</div>
+    <div class="ft-item">Commissions are for personal and non-commercial use by default.</div>
+    <div class="ft-item">Commercial use (paid ads, brand deals, monetized content) requires a separate agreement — contact me before commissioning.</div>
+  </div>
+
+  <div class="ft-section">
+    <div class="ft-title">right to decline</div>
+    <div class="ft-item">I reserve the right to decline any commission without explanation.</div>
+  </div>
+
+</div>
+
+</body>
+</html>
