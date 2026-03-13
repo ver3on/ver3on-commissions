@@ -33,7 +33,7 @@
   /* Header */
   .header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
   }
 
   .brand {
@@ -269,7 +269,9 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--dim);
-    white-space: nowrap;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.6;
   }
 
   /* CTA */
@@ -287,6 +289,13 @@
     background: var(--panel);
     border: 1px solid var(--border);
     text-align: center;
+    text-decoration: none;
+    display: block;
+    transition: border-color 0.2s;
+  }
+
+  .cta-main:hover {
+    border-color: rgba(254,254,180,0.3);
   }
 
   .cta-label {
@@ -495,23 +504,25 @@
     </div>
   </div>
 
-  <div class="note">
-    no refunds once work has begun, the 50/50 split protects us both
-  </div>
+
 
 </div>
 
 <div class="footer">
   <div class="footer-line"></div>
-  <div class="footer-text">portfolio — tiktok @ver3on</div>
+  <div class="footer-text">no refunds once work has begun, the 50/50 split protects us both</div>
   <div class="footer-line"></div>
 </div>
 
 <div class="cta">
-  <div class="cta-main">
-    <div class="cta-label">dm to commission</div>
-    <div class="cta-handle">tiktok / <span>@ver3on</span></div>
-  </div>
+  <a class="cta-main" href="https://tiktok.com/@ver3on" target="_blank">
+    <div class="cta-label">portfolio</div>
+    <div class="cta-handle">tiktok</div>
+  </a>
+  <a class="cta-main" href="https://ig.me/m/ver3on_" target="_blank">
+    <div class="cta-label">dm for commission</div>
+    <div class="cta-handle">instagram</div>
+  </a>
 </div>
 
 <div class="terms-toggle">
